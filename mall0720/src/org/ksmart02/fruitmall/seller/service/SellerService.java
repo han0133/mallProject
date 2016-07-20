@@ -75,14 +75,14 @@ public class SellerService {
 	 * sellerDao의 selectSellerList 호출합니다
 	 * try catch로 예외처리를 해줍니다.
 	 */
-	public Map<String, Object> getSellerList(int nowPage, int limitList, int limitLink, int movePage) {
+	public Map<String, Object> getSellerList(PageHelper pageHelper) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		sellerDao = new SellerDao();
 		List<SellerList> list = null;
-		PageHelper pageHelper = null;
+		PageHelper rePageHelper = null;
 		try {
 			int totalList = sellerDao.selectSellerListTotal();
-			pageHelper = new PageHelper(nowPage, totalList, limitList, limitLink, movePage);
+			rePageHelper = new PageHelper(totalList, pageHelper);
 			list = sellerDao.selectSellerList(pageHelper);
 			for(int i = 0; i < list.size(); i++){
 				list.get(i).setQuantity(sellerDao.selectSellerItemCount(list.get(i).getSellerNo()));
@@ -91,13 +91,13 @@ public class SellerService {
 			e.printStackTrace();
 		}
 		map.put("list", list);
-		map.put("pageHelper", pageHelper);
+		map.put("pageHelper", rePageHelper);
 		return map;
 		
 	}
 
 	
-	public Map<String, Object> sellerItemList(int sellerNo,int nowPage,int movePage, int limitLink,int limitList) {
+	public Map<String, Object> sellerItemList(int sellerNo,PageHelper pageHelper) {
 		sellerDao = new SellerDao();
 		
 		
@@ -105,10 +105,10 @@ public class SellerService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			int totalList = sellerDao.selectSellerItemListCount(sellerNo);
-			PageHelper pageHelper = new PageHelper(nowPage, totalList, limitList, limitLink, movePage);
-			list = sellerDao.selectSellerItemList(sellerNo,pageHelper);
+			PageHelper rePageHelper = new PageHelper( totalList,pageHelper);
+			list = sellerDao.selectSellerItemList(sellerNo,rePageHelper);
 			map.put("list", list);
-			map.put("pageHelper", pageHelper);
+			map.put("pageHelper", rePageHelper);
 			map.put("sellerNo", sellerNo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

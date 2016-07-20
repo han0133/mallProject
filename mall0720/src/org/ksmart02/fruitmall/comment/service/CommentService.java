@@ -52,21 +52,15 @@ public class CommentService {
 		try {
 			
 			int totalCount = commentDao.countComment(map);
-			int nowPage = (int)map.get("nowPage");
-			int limitList = (int)map.get("limitList");
-			int limitLink = (int)map.get("limitLink");
-			int movePage = (int)map.get("movePage");
+			PageHelper pageHelper = (PageHelper)map.get("pageHelper");
 			System.out.println("CommentService totalCount :" + totalCount);
-			System.out.println("CommentService nowPage :" + nowPage);
-			System.out.println("CommentService limitList :" + limitList);
-			System.out.println("CommentService limitLink :" + limitLink);
-			System.out.println("CommentService movePage :" + movePage);
-			PageHelper pageHelper = new PageHelper(nowPage,totalCount,limitList,limitLink,movePage);
+
+			PageHelper repageHelper = new PageHelper(totalCount,pageHelper);
 			
-			listComment = commentDao.listComment(pageHelper, map);
+			listComment = commentDao.listComment(repageHelper, map);
 			
 			map.put("listComment", listComment);
-			map.put("pageHelper", pageHelper);
+			map.put("pageHelper", repageHelper);
 			
 		} catch (Exception e) {
 			

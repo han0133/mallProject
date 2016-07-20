@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.ksmart02.fruitmall.seller.model.Seller;
 import org.ksmart02.fruitmall.seller.model.SellerList;
 import org.ksmart02.fruitmall.seller.service.SellerService;
+import org.ksmart02.fruitmall.util.PageHelper;
 
 /**
  * Servlet implementation class SellerListController
@@ -24,26 +25,24 @@ public class SellerListController extends HttpServlet {
        
    private SellerService sellerService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int nowPage 	= 1;
-		int movePage 	= 1;
-		int limitLink 	= 5;
-		int limitList 	= 5;
+		
 		sellerService 	= new SellerService();
+		PageHelper pageHelper = new PageHelper();
 		if(request.getParameter("nowPage") != null){
-			nowPage 	= Integer.parseInt(request.getParameter("nowPage"));
+			pageHelper.setNowPage(Integer.parseInt(request.getParameter("nowPage")));
 		}
 		if(request.getParameter("movePage") != null){
-			movePage 	= Integer.parseInt(request.getParameter("movePage"));
+			pageHelper.setMovePage(Integer.parseInt(request.getParameter("movePage")));
 		}
 		if(request.getParameter("limitLink") != null){
-			limitLink 	= Integer.parseInt(request.getParameter("limitLink"));
+			pageHelper.setLimitLink(Integer.parseInt(request.getParameter("limitLink")));
 		}
 		if(request.getParameter("limitList") != null){
-			limitList 	= Integer.parseInt(request.getParameter("limitList"));
+			pageHelper.setLimitList(Integer.parseInt(request.getParameter("limitList")));
 		}
 		
 		sellerService = new SellerService();
-		Map<String, Object> map = sellerService.getSellerList(nowPage, limitList, limitLink, movePage);
+		Map<String, Object> map = sellerService.getSellerList(pageHelper);
 		System.out.println(map);
 		request.setAttribute("map", map);
 		

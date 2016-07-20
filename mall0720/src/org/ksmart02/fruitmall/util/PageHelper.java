@@ -6,15 +6,15 @@ import java.util.List;
 public class PageHelper {
 	
 	//������ ����
-	private int nowPage; 	//현재 페이지
+	private int nowPage 	= 1; 	//현재 페이지
 	private int linkPage;	//아래 링크 페이지(nowPage/limitLink)+1
 	private List<Integer> linkPages;	//링크 1~.....10 
-	private int limitLink; 	//링크 제한
-	private int movePage;	//이전 다음 페이지 담는 변수
+	private int limitLink 	= 5; 	//링크 제한
+	private int movePage 	= 1;	//이전 다음 페이지 담는 변수
 	
 	//����Ʈ����
 	private int listOne; 	//리스트에서 맨 첫번째글 
-	private int limitList; 	//리스트 제한
+	private int limitList 	= 5; 	//리스트 제한
 	
 	//��Ż ����
 	private int totalPage; 	//총 페이지수 ((totalList-1)/limitList)+1
@@ -26,11 +26,11 @@ public class PageHelper {
 		
 	}
 	
-	public PageHelper(int nowPage,int totalList,int limitList,int limitLink,int movePage){//5,23,10,10,1
-		this.nowPage 	= nowPage;
+	public PageHelper(int totalList,PageHelper pageHelper){//5,23,10,10,1
 		this.totalList 	= totalList;
-		this.limitList 	= limitList;
-		this.limitLink 	= limitLink;
+		this.nowPage 	= pageHelper.getNowPage();
+		this.limitList 	= pageHelper.getLimitList();
+		this.limitLink 	= pageHelper.getLimitLink();
 
 		
 		

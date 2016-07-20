@@ -24,26 +24,23 @@ public class SellerItemListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int nowPage 	= 1;
-		int movePage 	= 1;
-		int limitLink 	= 5;
-		int limitList 	= 5;
 		int sellerNo 	= Integer.parseInt(request.getParameter("sellerNo"));
 		sellerService 	= new SellerService();
+		PageHelper pageHelper = new PageHelper();
 		if(request.getParameter("nowPage") != null){
-			nowPage 	= Integer.parseInt(request.getParameter("nowPage"));
+			pageHelper.setNowPage(Integer.parseInt(request.getParameter("nowPage")));
 		}
 		if(request.getParameter("movePage") != null){
-			movePage 	= Integer.parseInt(request.getParameter("movePage"));
+			pageHelper.setMovePage(Integer.parseInt(request.getParameter("movePage")));
 		}
 		if(request.getParameter("limitLink") != null){
-			limitLink 	= Integer.parseInt(request.getParameter("limitLink"));
+			pageHelper.setLimitLink(Integer.parseInt(request.getParameter("limitLink")));
 		}
 		if(request.getParameter("limitList") != null){
-			limitList 	= Integer.parseInt(request.getParameter("limitList"));
+			pageHelper.setLimitList(Integer.parseInt(request.getParameter("limitList")));
 		}
 		
-		Map<String, Object> map 	= sellerService.sellerItemList(sellerNo,nowPage,movePage,limitLink,limitList);
+		Map<String, Object> map 	= sellerService.sellerItemList(sellerNo,pageHelper);
 		
 		request.setAttribute("map", map);
 		

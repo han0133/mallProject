@@ -35,21 +35,21 @@ public class ItemService {
 	}
 	
 	//상품 목록을 보여주는 메서드(최초 기입 이한녕)+페이징 수정(0717 박종무)
-	public Map<String,Object> itemList(String categoryKeyWord, String searchKeyWord, int nowPage, int limitList, int limitLink, int movePage){
+	public Map<String,Object> itemList(String categoryKeyWord, String searchKeyWord,PageHelper pageHelper){
 		System.out.println("ItemService의 itemList실행");
 		Map<String,Object> map = new HashMap<String,Object>();
 		itemDao 					= new ItemDao();
 		ArrayList<Item> itemList 	= null;
-		PageHelper pageHelper = null;
+		PageHelper rePageHelper = null;
 		int totalCount = itemDao.countList();
 		try {
-			pageHelper = new PageHelper(nowPage,totalCount,limitList,limitLink,movePage);
+			rePageHelper = new PageHelper(totalCount,pageHelper);
 			itemList = new ArrayList<Item>();
 			
-			itemList = itemDao.selectItemAll(categoryKeyWord,searchKeyWord,pageHelper);
+			itemList = itemDao.selectItemAll(categoryKeyWord,searchKeyWord,rePageHelper);
 			
 			map.put("itemList", itemList);
-			map.put("pageHelper", pageHelper);
+			map.put("pageHelper", rePageHelper);
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}

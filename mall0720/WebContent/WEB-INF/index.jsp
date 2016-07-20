@@ -22,6 +22,9 @@
 	#css{
 		padding-left: 20%;
 	}
+	#paging{
+		text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -56,7 +59,7 @@
   </div>
 </div><br>
 <!-- 0717페이징 관련 박종무 -->
-<div>	
+<div id="paging">	
 	<span class="paging">
 		<a href="/itemListController?nowPage=1"> ◀◀ </a>
 		

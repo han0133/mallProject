@@ -29,20 +29,20 @@ public class NoticeService {
 	}
 	
 	// 주석 추가해주세요
-	public Map<String,Object> selectNotice(int nowPage, int limitList, int limitLink, int movePage) throws Exception{
+	public Map<String,Object> selectNotice(PageHelper pageHelper) throws Exception{
 		System.out.println("NoticeService의 selectNotice호출");
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		noticeDao = new NoticeDao();
 		int totalCount = noticeDao.countList();
-		PageHelper pageHelper = new PageHelper(nowPage,totalCount,limitList,limitLink,movePage);
+		PageHelper repageHelper = new PageHelper(totalCount,pageHelper);
 		list = new ArrayList<Notice>();
 		
 	//	System.out.println("listService시작");	 
-		list = noticeDao.listNotice(pageHelper);
+		list = noticeDao.listNotice(repageHelper);
 
 		map.put("list",list);
-		map.put("pageHelper",pageHelper);
+		map.put("pageHelper",repageHelper);
 
 		
 		return map;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ksmart02.fruitmall.item.service.ItemService;
+import org.ksmart02.fruitmall.util.PageHelper;
 
 @WebServlet("/itemListController")
 public class itemListController extends HttpServlet {
@@ -20,23 +21,21 @@ public class itemListController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("itemListController의 doGet실행");
-		int nowPage = 1;
-		int limitList = 10;
-		int limitLink = 10;
-		int movePage = 1;
+		PageHelper pageHelper = new PageHelper();
 		if(request.getParameter("nowPage") != null){
-			nowPage = Integer.parseInt(request.getParameter("nowPage"));	
-		}
-		if(request.getParameter("limitList") != null){
-			limitList = Integer.parseInt(request.getParameter("limitList"));
-		}
-		if(request.getParameter("limitLink") != null){
-			limitLink = Integer.parseInt(request.getParameter("limitLink"));
+			pageHelper.setNowPage(Integer.parseInt(request.getParameter("nowPage")));
 		}
 		if(request.getParameter("movePage") != null){
-			movePage = Integer.parseInt(request.getParameter("movePage"));
+			pageHelper.setMovePage(Integer.parseInt(request.getParameter("movePage")));
 		}
-		
+//		if(request.getParameter("limitLink") != null){
+//			pageHelper.setLimitLink(Integer.parseInt(request.getParameter("limitLink")));
+//		}
+//		if(request.getParameter("limitList") != null){
+//			pageHelper.setLimitList(Integer.parseInt(request.getParameter("limitList")));
+//		}
+		pageHelper.setLimitLink(10);
+		pageHelper.setLimitList(8);
 		String categoryKeyWord 	= ""; 
 		String searchKeyWord 	= "";
 		itemService 			= new ItemService();
@@ -50,7 +49,7 @@ public class itemListController extends HttpServlet {
 		//	System.out.println("itemLisController로 넘어온 검색 키워드: "+searchKeyWord);
 		}
 		
-		Map<String,Object> map = itemService.itemList(categoryKeyWord,searchKeyWord,nowPage,limitList,limitLink,movePage);
+		Map<String,Object> map = itemService.itemList(categoryKeyWord,searchKeyWord,pageHelper);
 		
 		request.setAttribute("map", map);
 		

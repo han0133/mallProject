@@ -17,6 +17,7 @@ import org.ksmart02.fruitmall.comment.model.Comment;
 import org.ksmart02.fruitmall.comment.service.CommentService;
 import org.ksmart02.fruitmall.item.model.Item;
 import org.ksmart02.fruitmall.item.service.ItemService;
+import org.ksmart02.fruitmall.util.PageHelper;
 
 @WebServlet("/itemDetailController")
 public class itemDetailController extends HttpServlet {
@@ -40,21 +41,18 @@ public class itemDetailController extends HttpServlet {
 		request.setAttribute("itemDetail", itemDetail);
 		
 		//댓글리스트 보여주자 (2016-07-16 댓글페이징 추가)
-		int nowPage = 1;	//현재 페이지
-		int limitList = 10;	//리스트제한
-		int limitLink = 10;	//링크제한
-		int movePage = 1;	//이전 다음 페이지 담는 변수
+		PageHelper pageHelper = new PageHelper();
 		if(request.getParameter("nowPage") != null){
-			nowPage = Integer.parseInt(request.getParameter("nowPage"));
-		}
-		if(request.getParameter("limitList") != null){
-			limitList = Integer.parseInt(request.getParameter("limitList"));
-		}
-		if(request.getParameter("limitLink") != null){
-			limitList = Integer.parseInt(request.getParameter("limitLink"));
+			pageHelper.setNowPage(Integer.parseInt(request.getParameter("nowPage")));
 		}
 		if(request.getParameter("movePage") != null){
-			limitList = Integer.parseInt(request.getParameter("movePage"));
+			pageHelper.setMovePage(Integer.parseInt(request.getParameter("movePage")));
+		}
+		if(request.getParameter("limitLink") != null){
+			pageHelper.setLimitLink(Integer.parseInt(request.getParameter("limitLink")));
+		}
+		if(request.getParameter("limitList") != null){
+			pageHelper.setLimitList(Integer.parseInt(request.getParameter("limitList")));
 		}
 		
 		commentService 			= new CommentService();
@@ -64,10 +62,7 @@ public class itemDetailController extends HttpServlet {
 	
 		//보낼때 사용하는 맵 map1
 		Map<String,Object> map1 = new HashMap<String,Object>();
-		map1.put("nowPage", nowPage);
-		map1.put("limitList",limitList);
-		map1.put("limitLink", limitLink);
-		map1.put("movePage", movePage);
+		map1.put("pageHelper", pageHelper);
 		map1.put("comment", comment);
 		
 		//받아올때 사용하는 맵 map2
