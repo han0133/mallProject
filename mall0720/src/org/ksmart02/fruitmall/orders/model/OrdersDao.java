@@ -52,7 +52,7 @@ public class OrdersDao {
 		Connection conn				= ConnectionPool.getConnection();
 		String sql					= "SELECT i.item_image itemImage, i.item_name itemName, o.orders_group ordersGroup, "
 				+ "o.orders_count ordersCount, o.orders_total_price ordersTotalPrice, o.orders_date ordersDate, o.orders_no ordersNo, "
-				+ "o.orders_refund ordersRefund, o.orders_delivery_confirm deliveryConfirm , i.item_no itemNo, FROM orders o inner join item i "
+				+ "o.orders_refund ordersRefund, o.orders_delivery_confirm deliveryConfirm , i.item_no itemNo FROM orders o inner join item i "
 				+ "ON o.item_no = i.item_no where o.member_id = ? and o.orders_confirm = 'N' order by o.orders_date desc";
 		PreparedStatement pstmt		 = conn.prepareStatement(sql);
 		pstmt.setString(1, member.getMemberId());

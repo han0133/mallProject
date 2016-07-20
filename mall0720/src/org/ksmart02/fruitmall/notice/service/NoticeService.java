@@ -34,8 +34,8 @@ public class NoticeService {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		noticeDao = new NoticeDao();
-		int totalCount = noticeDao.countList();
-		PageHelper repageHelper = new PageHelper(totalCount,pageHelper);
+		pageHelper.setTotalList(noticeDao.countList());
+		PageHelper repageHelper = new PageHelper(pageHelper);
 		list = new ArrayList<Notice>();
 		
 	//	System.out.println("listService시작");	 

@@ -51,11 +51,10 @@ public class CommentService {
 		ArrayList<Comment> listComment = new ArrayList<Comment>();
 		try {
 			
-			int totalCount = commentDao.countComment(map);
 			PageHelper pageHelper = (PageHelper)map.get("pageHelper");
-			System.out.println("CommentService totalCount :" + totalCount);
+			pageHelper.setTotalList(commentDao.countComment(map));
 
-			PageHelper repageHelper = new PageHelper(totalCount,pageHelper);
+			PageHelper repageHelper = new PageHelper(pageHelper);
 			
 			listComment = commentDao.listComment(repageHelper, map);
 			

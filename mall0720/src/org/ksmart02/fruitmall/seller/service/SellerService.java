@@ -81,8 +81,8 @@ public class SellerService {
 		List<SellerList> list = null;
 		PageHelper rePageHelper = null;
 		try {
-			int totalList = sellerDao.selectSellerListTotal();
-			rePageHelper = new PageHelper(totalList, pageHelper);
+			pageHelper.setTotalList(sellerDao.selectSellerListTotal());
+			rePageHelper = new PageHelper(pageHelper);
 			list = sellerDao.selectSellerList(pageHelper);
 			for(int i = 0; i < list.size(); i++){
 				list.get(i).setQuantity(sellerDao.selectSellerItemCount(list.get(i).getSellerNo()));
@@ -104,8 +104,8 @@ public class SellerService {
 		List<Item> list = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			int totalList = sellerDao.selectSellerItemListCount(sellerNo);
-			PageHelper rePageHelper = new PageHelper( totalList,pageHelper);
+			pageHelper.setTotalList(sellerDao.selectSellerItemListCount(sellerNo));
+			PageHelper rePageHelper = new PageHelper(pageHelper);
 			list = sellerDao.selectSellerItemList(sellerNo,rePageHelper);
 			map.put("list", list);
 			map.put("pageHelper", rePageHelper);

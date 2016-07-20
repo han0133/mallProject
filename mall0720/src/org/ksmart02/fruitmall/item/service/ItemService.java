@@ -41,9 +41,9 @@ public class ItemService {
 		itemDao 					= new ItemDao();
 		ArrayList<Item> itemList 	= null;
 		PageHelper rePageHelper = null;
-		int totalCount = itemDao.countList();
+		pageHelper.setTotalList(itemDao.countList());
 		try {
-			rePageHelper = new PageHelper(totalCount,pageHelper);
+			rePageHelper = new PageHelper(pageHelper);
 			itemList = new ArrayList<Item>();
 			
 			itemList = itemDao.selectItemAll(categoryKeyWord,searchKeyWord,rePageHelper);

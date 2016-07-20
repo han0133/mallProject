@@ -54,7 +54,7 @@ public class OrderListPresentController extends HttpServlet {
 		//세션 받아서 memberId에 담기
 		HttpSession session	= request.getSession();
 		String memberId		= (String) session.getAttribute("loginId");
-		
+		System.out.println(memberId+"ID이올시다");
 		Member member = new Member();
 		member.setMemberId(memberId);
 		
