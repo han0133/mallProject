@@ -3,6 +3,8 @@ package org.ksmart02.fruitmall.member.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.ksmart02.fruitmall.util.ConnectionPool;
 
@@ -105,11 +107,11 @@ public class MemberDao {
 		
 		
 	//로그인 메서드입니다
-	public String selectMemberByIdandPw(String id, String pw) throws Exception{
-		System.out.println("MemberDao의 selectMemberByIdandPw 실행");
-		
+	public Map<String, Object> selectMemberByIdandPw(String id, String pw) throws Exception{
+		System.out.println("MemberDao�쓽 selectMemberByIdandPw �떎�뻾");
+		Map<String, Object> map = new HashMap<String, Object>();
 		Connection conn 		= ConnectionPool.getConnection();
-		String sql 				= "select member_id from member where member_id = ? and member_pw = ?";
+		String sql 				= "select member_id, member_level from member where member_id = ? and member_pw = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, id);
 		pstmt.setString(2, pw);
@@ -118,9 +120,13 @@ public class MemberDao {
 		String result			= "";
 		if(rs.next()){
 			result = "success";
+			map.put("result", result);
+			map.put("memberLevel", rs.getString("member_level"));
+			System.out.println("1.result : "+result);
+			System.out.println("1.memberLevel : "+rs.getString("member_level"));
 		}
 		
-		return result;
+		return map;
 	}
 	
 	//회원가입 메서드입니다

@@ -29,13 +29,15 @@
 			<textarea readonly="readonly" rows="20" cols="60" name="noticeContent">${notice.noticeContent}</textarea>
 		</div>
 	</div>
-	<div>
-		<div>    
-			<a href="/NoticeModifyController?noticeNo=${notice.noticeNo }"><button>수정</button></a>
+	<c:if test="${ memberLevel eq '관리자'}">
+		<div>
+			<div>    
+				<a href="/NoticeModifyController?noticeNo=${notice.noticeNo }"><button>수정</button></a>
+			</div>
+			<div>	
+				<a href="/NoticeDelController?noticeNo=${notice.noticeNo }"><button>삭제</button></a>
+			</div>
 		</div>
-		<div>	
-			<a href="/NoticeDelController?noticeNo=${notice.noticeNo }"><button>삭제</button></a>
-		</div>
-	</div>
+	</c:if>	
 </body>
 </html>

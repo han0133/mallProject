@@ -2,6 +2,8 @@ package org.ksmart02.fruitmall.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,12 +30,16 @@ public class JSONIdPwCheckController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("json/text");
+		Map<String, Object> map = new HashMap<String, Object>();
 		String id = request.getParameter("memberId");
 		String pw = request.getParameter("memberPw");
 		String result = null;		
 		memberDao= new MemberDao();
+		
+		
 		try {
-			result = memberDao.selectMemberByIdandPw(id, pw);
+			map = memberDao.selectMemberByIdandPw(id, pw);
+			result = (String) map.get("result");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

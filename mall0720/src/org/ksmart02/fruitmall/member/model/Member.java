@@ -9,6 +9,9 @@ public class Member {
 	private String memberRoadAddr;
 	private String memberPhone;
 	private String memberOut;
+	private String memberLevel;
+	
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -62,6 +65,12 @@ public class Member {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberPost=" + memberPost + ", memberParcleAddr=" + memberParcleAddr + ", memberRoadAddr="
 				+ memberRoadAddr + ", memberPhone=" + memberPhone + ", memberOut=" + memberOut + "]";
+	}
+	public String getMemberLevel() {
+		return memberLevel;
+	}
+	public void setMemberLevel(String memberLevel) {
+		this.memberLevel = memberLevel;
 	}
 	
 

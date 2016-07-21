@@ -1,6 +1,8 @@
 package org.ksmart02.fruitmall.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,18 +33,23 @@ public class LoginController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("LogInController의 doPost 실행");
-
+		Map<String, Object> map = new HashMap<String, Object>();
 		//login.jsp에서 아이디와 비밀번호를 받는다
 		String memberId = request.getParameter("memberId");
 		String memberPw = request.getParameter("memberPw");
-		
+		String memberLevel = "";
 		//MemberDao의 selectMemberByIdandPw 메서드 호출
 		MemberDao memberDao = new MemberDao();
-		
+		HttpSession session = request.getSession();
 		//메서드의 return을 받기위해 String 변수 선언
 		String result = "";
 		try {
-			result		= memberDao.selectMemberByIdandPw(memberId, memberPw);
+			map		= memberDao.selectMemberByIdandPw(memberId, memberPw);
+			
+			memberLevel = (String) map.get("memberLevel");
+			result = (String) map.get("result");
+			System.out.println("result : "+result);
+			System.out.println("memberLevel");
 		} catch (Exception e) {
 			System.out.println("로그인 메서드 오류 발생");
 			e.printStackTrace();
@@ -50,8 +57,8 @@ public class LoginController extends HttpServlet {
 		
 		//로그인 성공시 session에 아이디 담음
 		if(result == "success"){
-			HttpSession session = request.getSession();
 			session.setAttribute("loginId", memberId);
+			session.setAttribute("memberLevel", memberLevel);
 		}
 		
 		response.sendRedirect("/");
