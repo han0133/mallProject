@@ -40,14 +40,17 @@ ArrayList<Notice> list = new ArrayList<Notice>();
 		}
 		NoticeService noticeService = new NoticeService();
 		Map<String, Object> map;
+		HttpSession session = request.getSession();
+		String memberLevel = (String) session.getAttribute("memberLevel");
 		try {
 			map = noticeService.selectNotice(pageHelper);
 			request.setAttribute("map", map);
+			request.setAttribute("memberLevel", memberLevel);
+			
 		} catch (Exception e) {
 			response.sendRedirect("/WEB-INF/Views/error.jsp");
 		}
 		
-		HttpSession session = request.getSession();	
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/Views/notice/noticeList.jsp");
 		rd.forward(request, response);
 	}

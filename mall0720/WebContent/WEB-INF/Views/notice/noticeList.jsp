@@ -110,7 +110,7 @@
 			<a href="/NoticeListController?nowPage=${map.pageHelper.totalPage}"> ▶▶ </a>
 			</span>
 		</div>	
-	<c:if test="${ memberLevel ne '관리자'}">
+	<c:if test="${ memberLevel eq '관리자'}">
 		<div id="addNotice">
 			<label>
 				<a href="/NoticeAddController"><input type="button" class="btn btn-default" value="공지쓰기"></a>
