@@ -18,28 +18,32 @@ public class OrdersDao {
 	//환불확정을 확인하는 메서드 입니다 0717
 	public List<Map> selectRefundConfirm(List<Map> ordersList) throws Exception{
 		System.out.println("OrdersDao의 selectRefundConfirm 실행");
-		ResultSet rs 			= null;
-		Connection conn			= ConnectionPool.getConnection();
-		String sql				= "select r.refund_confirm, r.refund_confirm_date, o.orders_no from orders o inner join refund r "
-				+ "on o.orders_no = r.orders_no where o.orders_no = ?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		for(int i = 0; i<ordersList.size(); i++){
-			pstmt.setInt(1, (int)ordersList.get(i).get("ordersNo"));
-			rs	= pstmt.executeQuery();
-			
-			while(rs.next()){
+
+		if(ordersList.size() != 0){
+			ResultSet rs 			= null;
+			Connection conn			= ConnectionPool.getConnection();
+			String sql				= "select r.refund_confirm, r.refund_confirm_date, o.orders_no from orders o inner join refund r "
+					+ "on o.orders_no = r.orders_no where o.orders_no = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			for(int i = 0; i<ordersList.size(); i++){
+				pstmt.setInt(1, (int)ordersList.get(i).get("ordersNo"));
+				rs	= pstmt.executeQuery();
 				
-				ordersList.get(i).put("refundConfirm", rs.getString(1));
-				ordersList.get(i).put("refundConfirmDate", rs.getString(2));
-				ordersList.get(i).put("ordersNo", rs.getInt(3));
-			
+				while(rs.next()){
+					
+					ordersList.get(i).put("refundConfirm", rs.getString(1));
+					ordersList.get(i).put("refundConfirmDate", rs.getString(2));
+					ordersList.get(i).put("ordersNo", rs.getInt(3));
+				
+				}
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 		}
 		
-		rs.close();
-		pstmt.close();
-		conn.close();
+		
+		
 		return ordersList;
 	}
 	
